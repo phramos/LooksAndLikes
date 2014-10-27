@@ -44,14 +44,21 @@ public class RegisterActivity extends Activity {
                 RegisterActivity.this.progressDialog = ProgressDialog.show(
                         RegisterActivity.this, "", "Creating account...", true);
                 ParseUser user = new ParseUser();
-                fullname = (EditText) findViewById(R.id.reg_fullname);
-                user.setUsername(fullname.getText().toString());
 
                 email = (EditText) findViewById(R.id.reg_email);
+                user.setUsername(email.getText().toString());
                 user.setEmail(email.getText().toString());
+
+                fullname = (EditText) findViewById(R.id.reg_fullname);
+                user.put("Name", fullname.getText().toString());
 
                 password = (EditText) findViewById(R.id.reg_password);
                 user.setPassword(password.getText().toString());
+                try {
+                    user.fetch();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
                 user.signUpInBackground(new SignUpCallback() {
                     public void done(ParseException e) {

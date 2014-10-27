@@ -55,15 +55,14 @@ public class LoginActivity extends Activity {
 
                 ParseUser.logInInBackground(email.getText().toString(), password.getText().toString(), new LogInCallback() {
                     public void done(ParseUser user, ParseException e) {
-                        LoginActivity.this.progressDialog.dismiss();
                         if (user != null) {
-                            LoginActivity.this.progressDialog = ProgressDialog.show(
-                                    LoginActivity.this, "", "Login succeeded!",false);
+                            /*LoginActivity.this.progressDialog = ProgressDialog.show(
+                                    LoginActivity.this, "", "Login succeeded!",false);*/
                         } else {
-                            LoginActivity.this.progressDialog = ProgressDialog.show(
-                                    LoginActivity.this, "", "Login failed!", false);
+                            /*LoginActivity.this.progressDialog = ProgressDialog.show(
+                                    LoginActivity.this, "", e.getMessage(), false);*/
                         }
-
+                        LoginActivity.this.progressDialog.dismiss();
                     }
                 });
             }
