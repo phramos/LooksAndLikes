@@ -1,7 +1,8 @@
-package com.au.uow.looksandlikes;
+package com.au.uow.looksandlikes.controller;
 
 import android.app.Application;
 
+import com.au.uow.looksandlikes.R;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 

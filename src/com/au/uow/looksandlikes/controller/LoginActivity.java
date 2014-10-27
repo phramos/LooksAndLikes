@@ -1,4 +1,4 @@
-package com.au.uow.looksandlikes;
+package com.au.uow.looksandlikes.controller;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,9 +12,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.au.uow.looksandlikes.R;
+import com.au.uow.looksandlikes.controller.MainActivity;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
@@ -126,7 +128,7 @@ public class LoginActivity extends Activity {
 	}
 
 	private void showUserDetailsActivity() {
-		//Intent intent = new Intent(this, UserDetailsActivity.class);
-		//startActivity(intent);
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
 	}
 }

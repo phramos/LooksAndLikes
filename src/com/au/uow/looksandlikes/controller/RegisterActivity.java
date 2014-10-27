@@ -1,4 +1,4 @@
-package com.au.uow.looksandlikes;
+package com.au.uow.looksandlikes.controller;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.au.uow.looksandlikes.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
