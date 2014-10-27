@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
+import android.widget.EditText;
 import android.widget.TextView;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -21,8 +22,11 @@ import com.parse.ParseUser;
 
 public class LoginActivity extends Activity {
 
-	private Button loginButton;
+	private Button btnLoginFacebook;
+    private Button btnLogin;
     private TextView registerScreen;
+    private EditText email;
+    private EditText password;
 	private Dialog progressDialog;
 
 	@Override
@@ -31,13 +35,39 @@ public class LoginActivity extends Activity {
 
 		setContentView(R.layout.login);
 
-		loginButton = (Button) findViewById(R.id.loginButton);
-		loginButton.setOnClickListener(new View.OnClickListener() {
+        btnLoginFacebook = (Button) findViewById(R.id.btnLoginFacebook);
+        btnLoginFacebook.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				onLoginButtonClicked();
 			}
 		});
+
+        btnLogin = (Button) findViewById(R.id.btnLogin);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginActivity.this.progressDialog = ProgressDialog.show(
+                        LoginActivity.this, "", "Logging in...", true);
+
+                email = (EditText) findViewById(R.id.reg_email);
+                password = (EditText) findViewById(R.id.reg_password);
+
+                ParseUser.logInInBackground(email.getText().toString(), password.getText().toString(), new LogInCallback() {
+                    public void done(ParseUser user, ParseException e) {
+                        LoginActivity.this.progressDialog.dismiss();
+                        if (user != null) {
+                            LoginActivity.this.progressDialog = ProgressDialog.show(
+                                    LoginActivity.this, "", "Login succeeded!",false);
+                        } else {
+                            LoginActivity.this.progressDialog = ProgressDialog.show(
+                                    LoginActivity.this, "", "Login failed!", false);
+                        }
+
+                    }
+                });
+            }
+        });
 
         registerScreen = (TextView) findViewById(R.id.link_to_register);
         // Listening to register new account link
@@ -74,8 +104,6 @@ public class LoginActivity extends Activity {
 	private void onLoginButtonClicked() {
 		LoginActivity.this.progressDialog = ProgressDialog.show(
 				LoginActivity.this, "", "Logging in...", true);
-
-        
 		List<String> permissions = Arrays.asList("public_profile", "user_about_me",
 				"user_relationships", "user_birthday", "user_location");
 		ParseFacebookUtils.logIn(permissions, this, new LogInCallback() {
