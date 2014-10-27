@@ -5,9 +5,9 @@ import android.app.Application;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 
-public class IntegratingFacebookTutorialApplication extends Application {
+public class LooksAndLikes extends Application {
 
-	static final String TAG = "MyApp";
+	static final String TAG = "Looks&Likes";
 
 	@Override
 	public void onCreate() {

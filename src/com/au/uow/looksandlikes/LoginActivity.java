@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
+import android.widget.TextView;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
@@ -21,13 +22,14 @@ import com.parse.ParseUser;
 public class LoginActivity extends Activity {
 
 	private Button loginButton;
+    private TextView registerScreen;
 	private Dialog progressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.main);
+		setContentView(R.layout.login);
 
 		loginButton = (Button) findViewById(R.id.loginButton);
 		loginButton.setOnClickListener(new View.OnClickListener() {
@@ -36,6 +38,17 @@ public class LoginActivity extends Activity {
 				onLoginButtonClicked();
 			}
 		});
+
+        registerScreen = (TextView) findViewById(R.id.link_to_register);
+        // Listening to register new account link
+        registerScreen.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Switching to Register screen
+                /*Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(i);*/
+            }
+        });
+
 
 		// Check if there is a currently logged in user
 		// and they are linked to a Facebook account.
@@ -69,14 +82,14 @@ public class LoginActivity extends Activity {
 			public void done(ParseUser user, ParseException err) {
 				LoginActivity.this.progressDialog.dismiss();
 				if (user == null) {
-					Log.d(IntegratingFacebookTutorialApplication.TAG,
+					Log.d(LooksAndLikes.TAG,
 							"Uh oh. The user cancelled the Facebook login.");
 				} else if (user.isNew()) {
-					Log.d(IntegratingFacebookTutorialApplication.TAG,
+					Log.d(LooksAndLikes.TAG,
 							"User signed up and logged in through Facebook!");
 					showUserDetailsActivity();
 				} else {
-					Log.d(IntegratingFacebookTutorialApplication.TAG,
+					Log.d(LooksAndLikes.TAG,
 							"User logged in through Facebook!");
 					showUserDetailsActivity();
 				}
