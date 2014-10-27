@@ -44,11 +44,10 @@ public class LoginActivity extends Activity {
         registerScreen.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Switching to Register screen
-                /*Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivity(i);*/
+                Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(i);
             }
         });
-
 
 		// Check if there is a currently logged in user
 		// and they are linked to a Facebook account.
