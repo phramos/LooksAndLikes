@@ -1,4 +1,4 @@
- 	package com.au.uow.looksandlikes.controller;
+package com.au.uow.looksandlikes.controller;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -18,13 +18,14 @@ import android.widget.ListView;
 
 import com.au.uow.looksandlikes.NavRowAdapter;
 import com.au.uow.looksandlikes.R;
+import com.au.uow.looksandlikes.controller.fragment.RatingFragment;
 import com.parse.ParseUser;
 
 public class MainActivity extends Activity {
 
 	private DrawerLayout drawerLayout;
 	private ListView listView;
-	
+
 	private ActionBarDrawerToggle drawerToggle;
 
 	@Override
@@ -38,31 +39,38 @@ public class MainActivity extends Activity {
 
 		listView.setAdapter(new NavRowAdapter(this));
 		listView.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        });
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				selectItem(position);
+			}
+		});
 
-//		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
-//				R.drawable.ic_drawer, R.string.drawer_open,
-//				R.string.drawer_open);
-		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_open){
+		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+				R.drawable.ic_drawer, R.string.drawer_open,
+				R.string.drawer_open) {
 			@Override
 			public void onDrawerOpened(View drawerView) {
-				//Activates when the drawer is being open
+				// Activates when the drawer is being open
 				super.onDrawerOpened(drawerView);
 			}
-			
+
 			@Override
 			public void onDrawerClosed(View drawerView) {
-				//Activates when the drawer is being close
+				// Activates when the drawer is being close
 				super.onDrawerClosed(drawerView);
 			}
 		};
+		// Setting the navigation drawer image
 		drawerLayout.setDrawerListener(drawerToggle);
 		getActionBar().setHomeButtonEnabled(true);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+
+		// Setting the initial content in the screen
+		FragmentManager fragmentManager = getFragmentManager();
+		fragmentManager.beginTransaction()
+				.replace(R.id.mainContent, new RatingFragment()).commit();
+		listView.setItemChecked(1, true);
 	}
 
 	@Override
@@ -71,7 +79,7 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
+
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
@@ -87,12 +95,12 @@ public class MainActivity extends Activity {
 		if (id == R.id.action_settings) {
 			return true;
 		}
-        if (id == R.id.action_logout) {
-            ParseUser.logOut();
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
-		if (drawerToggle.onOptionsItemSelected(item)){
+		if (id == R.id.action_logout) {
+			ParseUser.logOut();
+			Intent intent = new Intent(this, LoginActivity.class);
+			startActivity(intent);
+		}
+		if (drawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -102,32 +110,35 @@ public class MainActivity extends Activity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		// TODO Auto-generated method stub
 		super.onConfigurationChanged(newConfig);
-		//handles the changes on the screen size and the state  
+		// handles the changes on the screen size and the state
 		drawerToggle.onConfigurationChanged(newConfig);
 	}
 
-    private void selectItem(int position) {
-    	Fragment fragment = null;
-    	
-    	listView.setItemChecked(position, true);
-    	
-    	switch (position) {
-            case 0:
-            	
-                break;
-            case 1:
-            	//content = ;
-                break;
-            case 2:
-                Intent intent = new Intent(this, NewLookActivity.class);
-                startActivity(intent);
-                break;
-        }
-    	
-    	 // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.mainContent, fragment).commit();
-        
-        
-    }
+	// Select the fragment to be shown based on the selection made by the user
+	// in the navigation drawer
+	private void selectItem(int position) {
+		Fragment fragment = null;
+
+		listView.setItemChecked(position, true);
+
+		switch (position) {
+		case 0:
+			//Profile
+		case 1:
+			fragment = new RatingFragment();
+			drawerLayout.closeDrawer(listView);
+			FragmentManager fragmentManager = getFragmentManager();
+			fragmentManager.beginTransaction().replace(R.id.mainContent, fragment)
+					.commit();
+			break;
+		case 2:
+			Intent intent = new Intent(this, NewLookActivity.class);
+			startActivity(intent);
+			break;
+		}
+
+		// Insert the fragment by replacing any existing fragment
+		
+
+	}
 }
