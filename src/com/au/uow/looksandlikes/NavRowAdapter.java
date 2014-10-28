@@ -13,7 +13,7 @@ import android.widget.TextView;
 public class NavRowAdapter extends BaseAdapter {
 	private Context context;
 	private String options[];
-	int[] images = { R.drawable.ic_rate, R.drawable.ic_camera };
+	int[] images = { R.drawable.ic_rate, R.drawable.ic_camera, R.drawable.ic_camera };
 
 	public NavRowAdapter(Context context) {
 		this.context = context;
