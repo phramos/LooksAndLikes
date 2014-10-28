@@ -1,4 +1,4 @@
-package com.au.uow.looksandlikes.controller;
+ 	package com.au.uow.looksandlikes.controller;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -107,16 +107,27 @@ public class MainActivity extends Activity {
 	}
 
     private void selectItem(int position) {
-        switch (position) {
+    	Fragment fragment = null;
+    	
+    	listView.setItemChecked(position, true);
+    	
+    	switch (position) {
             case 0:
-
+            	
                 break;
             case 1:
+            	//content = ;
                 break;
             case 2:
                 Intent intent = new Intent(this, NewLookActivity.class);
                 startActivity(intent);
                 break;
         }
+    	
+    	 // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.mainContent, fragment).commit();
+        
+        
     }
 }
