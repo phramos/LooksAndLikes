@@ -1,6 +1,9 @@
 package com.au.uow.looksandlikes.controller;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -15,8 +18,9 @@ import android.widget.ListView;
 
 import com.au.uow.looksandlikes.NavRowAdapter;
 import com.au.uow.looksandlikes.R;
+import com.parse.ParseUser;
 
-public class MainActivity extends Activity implements OnItemClickListener {
+public class MainActivity extends Activity {
 
 	private DrawerLayout drawerLayout;
 	private ListView listView;
@@ -31,8 +35,15 @@ public class MainActivity extends Activity implements OnItemClickListener {
 		// linking the views with the models
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 		listView = (ListView) findViewById(R.id.drawerList);
+
 		listView.setAdapter(new NavRowAdapter(this));
-		listView.setOnItemClickListener(this);
+		listView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectItem(position);
+            }
+        });
+
 //		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
 //				R.drawable.ic_drawer, R.string.drawer_open,
 //				R.string.drawer_open);
@@ -76,6 +87,11 @@ public class MainActivity extends Activity implements OnItemClickListener {
 		if (id == R.id.action_settings) {
 			return true;
 		}
+        if (id == R.id.action_logout) {
+            ParseUser.logOut();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
 		if (drawerToggle.onOptionsItemSelected(item)){
 			return true;
 		}
@@ -89,12 +105,18 @@ public class MainActivity extends Activity implements OnItemClickListener {
 		//handles the changes on the screen size and the state  
 		drawerToggle.onConfigurationChanged(newConfig);
 	}
-	
-	// handles the clicks on the nav drawer
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
-		// TODO Auto-generated method stub
 
-	}
+    private void selectItem(int position) {
+        switch (position) {
+            case 0:
+
+                break;
+            case 1:
+                break;
+            case 2:
+                Intent intent = new Intent(this, NewLookActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
 }

@@ -41,7 +41,7 @@ public class LoginActivity extends Activity {
         btnLoginFacebook.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				onLoginButtonClicked();
+				onLoginFacebookButtonClicked();
 			}
 		});
 
@@ -85,7 +85,7 @@ public class LoginActivity extends Activity {
 		ParseUser currentUser = ParseUser.getCurrentUser();
 		if ((currentUser != null) && ParseFacebookUtils.isLinked(currentUser)) {
 			// Go to the user info activity
-			showUserDetailsActivity();
+			goToMainActivity();
 		}
 	}
 
@@ -102,7 +102,7 @@ public class LoginActivity extends Activity {
 		ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
 	}
 
-	private void onLoginButtonClicked() {
+	private void onLoginFacebookButtonClicked() {
 		LoginActivity.this.progressDialog = ProgressDialog.show(
 				LoginActivity.this, "", "Logging in...", true);
 		List<String> permissions = Arrays.asList("public_profile", "user_about_me",
@@ -117,17 +117,17 @@ public class LoginActivity extends Activity {
 				} else if (user.isNew()) {
 					Log.d(LooksAndLikes.TAG,
 							"User signed up and logged in through Facebook!");
-					showUserDetailsActivity();
+                    goToMainActivity();
 				} else {
 					Log.d(LooksAndLikes.TAG,
 							"User logged in through Facebook!");
-					showUserDetailsActivity();
+                    goToMainActivity();
 				}
 			}
 		});
 	}
 
-	private void showUserDetailsActivity() {
+	private void goToMainActivity() {
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 	}

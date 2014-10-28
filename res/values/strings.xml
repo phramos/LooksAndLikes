@@ -18,6 +18,7 @@
     <string name="drawer_close">Close navigation drawer</string>
 
     <string-array name="navDrawerOptions">
+        <item>View profile</item>
         <item>Rate Photos</item>
         <item>Add a photo</item>
     </string-array>
@@ -29,5 +30,22 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
+    <string name="look_label">Add a look</string>
+    <string name="save_button_text">Save</string>
+    <string name="cancel_button_text">Cancel</string>
+    <string name="new_look">New Look</string>
+
+    <string-array name="ratings_array">
+        <item>10</item>
+        <item>9</item>
+        <item>8</item>
+        <item>7</item>
+        <item>6</item>
+        <item>5</item>
+        <item>4</item>
+        <item>3</item>
+        <item>2</item>
+        <item>1</item>
+    </string-array>
 
 </resources>
