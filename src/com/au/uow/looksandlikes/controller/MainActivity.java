@@ -20,7 +20,7 @@ import com.au.uow.looksandlikes.NavRowAdapter;
 import com.au.uow.looksandlikes.R;
 import com.parse.ParseUser;
 
-public class MainActivity extends Activity implements OnItemClickListener {
+public class MainActivity extends Activity {
 
 	private DrawerLayout drawerLayout;
 	private ListView listView;
@@ -105,17 +105,15 @@ public class MainActivity extends Activity implements OnItemClickListener {
 		//handles the changes on the screen size and the state  
 		drawerToggle.onConfigurationChanged(newConfig);
 	}
-	
-	// handles the clicks on the nav drawer
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
-        // TODO Auto-generated method stub
-	}
 
-    /** Swaps fragments in the main content view */
     private void selectItem(int position) {
-        Intent intent = new Intent(this, NewLookActivity.class);
-        startActivity(intent);
+        switch (position) {
+            case 0:
+                break;
+            case 1:
+                Intent intent = new Intent(this, NewLookActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }

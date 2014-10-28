@@ -2,6 +2,7 @@ package com.au.uow.looksandlikes.controller;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -111,24 +112,24 @@ public class CameraFragment extends Fragment {
 	private void saveScaledPhoto(byte[] data) {
 
 		// Resize photo from camera byte array
-		Bitmap mealImage = BitmapFactory.decodeByteArray(data, 0, data.length);
-		Bitmap mealImageScaled = Bitmap.createScaledBitmap(mealImage, 200, 200
-                * mealImage.getHeight() / mealImage.getWidth(), false);
+		Bitmap lookImage = BitmapFactory.decodeByteArray(data, 0, data.length);
+		Bitmap lookImageScaled = Bitmap.createScaledBitmap(lookImage, 200, 200
+                * lookImage.getHeight() / lookImage.getWidth(), false);
 
 		// Override Android default landscape orientation and save portrait
 		Matrix matrix = new Matrix();
 		matrix.postRotate(90);
-		Bitmap rotatedScaledMealImage = Bitmap.createBitmap(mealImageScaled, 0,
-                0, mealImageScaled.getWidth(), mealImageScaled.getHeight(),
+		Bitmap rotatedScaledlookImage = Bitmap.createBitmap(lookImageScaled, 0,
+                0, lookImageScaled.getWidth(), lookImageScaled.getHeight(),
                 matrix, true);
 
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		rotatedScaledMealImage.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+		rotatedScaledlookImage.compress(Bitmap.CompressFormat.JPEG, 100, bos);
 
 		byte[] scaledData = bos.toByteArray();
 
 		// Save the scaled image to Parse
-		photoFile = new ParseFile("meal_photo.jpg", scaledData);
+		photoFile = new ParseFile("look_photo.jpg", scaledData);
 		photoFile.saveInBackground(new SaveCallback() {
 
 			public void done(ParseException e) {
@@ -137,7 +138,7 @@ public class CameraFragment extends Fragment {
                             "Error saving: " + e.getMessage(),
                             Toast.LENGTH_LONG).show();
 				} else {
-					addPhotoToMealAndReturn(photoFile);
+					addPhotoTolookAndReturn(photoFile);
 				}
 			}
 		});
@@ -145,16 +146,19 @@ public class CameraFragment extends Fragment {
 
 	/*
 	 * Once the photo has saved successfully, we're ready to return to the
-	 * NewMealFragment. When we added the CameraFragment to the back stack, we
-	 * named it "NewMealFragment". Now we'll pop fragments off the back stack
+	 * NewlookFragment. When we added the CameraFragment to the back stack, we
+	 * named it "NewlookFragment". Now we'll pop fragments off the back stack
 	 * until we reach that Fragment.
 	 */
-	private void addPhotoToMealAndReturn(ParseFile photoFile) {
-		((NewLookActivity) getActivity()).getCurrentMeal().setPhotoFile(
+	private void addPhotoTolookAndReturn(ParseFile photoFile) {
+		((NewLookActivity) getActivity()).getCurrentlook().setPhotoFile(
 				photoFile);
-		FragmentManager fm = getActivity().getFragmentManager();
-		fm.popBackStack("NewMealFragment",
-				FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        Fragment newLookFragment = new NewLookFragment();
+        FragmentTransaction transaction = getActivity().getFragmentManager()
+                .beginTransaction();
+        transaction.replace(R.id.fragmentContainer, newLookFragment);
+        transaction.commit();
 	}
 
 	@Override

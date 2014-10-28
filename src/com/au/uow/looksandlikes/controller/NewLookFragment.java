@@ -16,10 +16,10 @@ import com.parse.*;
 
 /*
  * This fragment manages the data entry for a
- * new Meal object. It lets the user input a 
- * meal name, give it a rating, and take a 
+ * new look object. It lets the user input a
+ * look name, give it a rating, and take a
  * photo. If there is already a photo associated
- * with this meal, it will be displayed in the 
+ * with this look, it will be displayed in the
  * preview at the bottom, which is a standalone
  * ParseImageView.
  */
@@ -28,9 +28,9 @@ public class NewLookFragment extends Fragment {
 	private ImageButton photoButton;
 	private Button saveButton;
 	private Button cancelButton;
-	private TextView mealName;
-	private Spinner mealRating;
-	private ParseImageView mealPreview;
+	private TextView lookName;
+	private Spinner lookRating;
+	private ParseImageView lookPreview;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,50 +42,27 @@ public class NewLookFragment extends Fragment {
 			Bundle SavedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_new_look, parent, false);
 
-		mealName = ((EditText) v.findViewById(R.id.meal_name));
-
-		// The mealRating spinner lets people assign favorites of meals they've
-		// eaten.
-		// Meals with 4 or 5 ratings will appear in the Favorites view.
-		mealRating = ((Spinner) v.findViewById(R.id.rating_spinner));
-		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter
-				.createFromResource(getActivity(), R.array.ratings_array,
-                        android.R.layout.simple_spinner_dropdown_item);
-		mealRating.setAdapter(spinnerAdapter);
-
-		photoButton = ((ImageButton) v.findViewById(R.id.photo_button));
-		photoButton.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				InputMethodManager imm = (InputMethodManager) getActivity()
-						.getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(mealName.getWindowToken(), 0);
-				startCamera();
-			}
-		});
-
 		saveButton = ((Button) v.findViewById(R.id.save_button));
 		saveButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Look look = ((NewLookActivity) getActivity()).getCurrentMeal();
+				Look look = ((NewLookActivity) getActivity()).getCurrentlook();
 
-				// When the user clicks "Save," upload the meal to Parse
-				// Add data to the meal object:
-                //look.setTitle(mealName.getText().toString());
+				// When the user clicks "Save," upload the look to Parse
+				// Add data to the look object:
+                //look.setTitle(lookName.getText().toString());
 
-				// Associate the meal with the current user
+				// Associate the look with the current user
 				look.setAuthor(ParseUser.getCurrentUser());
 
 				// Add the rating
-				look.setRating(mealRating.getSelectedItem().toString());
+				look.setRating("2");
 
 				// If the user added a photo, that data will be
 				// added in the CameraFragment
 
-				// Save the meal and return
+				// Save the look and return
 				look.saveInBackground(new SaveCallback() {
 
 					@Override
@@ -117,32 +94,14 @@ public class NewLookFragment extends Fragment {
 		});
 
 		// Until the user has taken a photo, hide the preview
-		mealPreview = (ParseImageView) v.findViewById(R.id.meal_preview_image);
-		mealPreview.setVisibility(View.INVISIBLE);
+		lookPreview = (ParseImageView) v.findViewById(R.id.look_preview_image);
+		lookPreview.setVisibility(View.INVISIBLE);
 
 		return v;
 	}
 
 	/*
-	 * All data entry about a Meal object is managed from the NewMealActivity.
-	 * When the user wants to add a photo, we'll start up a custom
-	 * CameraFragment that will let them take the photo and save it to the Meal
-	 * object owned by the NewMealActivity. Create a new CameraFragment, swap
-	 * the contents of the fragmentContainer (see activity_new_meal.xml), then
-	 * add the NewMealFragment to the back stack so we can return to it when the
-	 * camera is finished.
-	 */
-	public void startCamera() {
-		Fragment cameraFragment = new CameraFragment();
-		FragmentTransaction transaction = getActivity().getFragmentManager()
-				.beginTransaction();
-		transaction.replace(R.id.fragmentContainer, cameraFragment);
-		transaction.addToBackStack("NewMealFragment");
-		transaction.commit();
-	}
-
-	/*
-	 * On resume, check and see if a meal photo has been set from the
+	 * On resume, check and see if a look photo has been set from the
 	 * CameraFragment. If it has, load the image in this fragment and make the
 	 * preview image visible.
 	 */
@@ -150,13 +109,13 @@ public class NewLookFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		ParseFile photoFile = ((NewLookActivity) getActivity())
-				.getCurrentMeal().getPhotoFile();
+				.getCurrentlook().getPhotoFile();
 		if (photoFile != null) {
-			mealPreview.setParseFile(photoFile);
-			mealPreview.loadInBackground(new GetDataCallback() {
+			lookPreview.setParseFile(photoFile);
+			lookPreview.loadInBackground(new GetDataCallback() {
 				@Override
 				public void done(byte[] data, ParseException e) {
-					mealPreview.setVisibility(View.VISIBLE);
+					lookPreview.setVisibility(View.VISIBLE);
 				}
 			});
 		}
