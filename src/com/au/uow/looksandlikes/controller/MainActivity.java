@@ -109,8 +109,11 @@ public class MainActivity extends Activity {
     private void selectItem(int position) {
         switch (position) {
             case 0:
+
                 break;
             case 1:
+                break;
+            case 2:
                 Intent intent = new Intent(this, NewLookActivity.class);
                 startActivity(intent);
                 break;

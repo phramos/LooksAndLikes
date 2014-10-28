@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.au.uow.looksandlikes.Look;
 import com.au.uow.looksandlikes.R;
+import com.au.uow.looksandlikes.UserProfile;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
@@ -17,6 +18,7 @@ public class LooksAndLikes extends Application {
 		super.onCreate();
 
         ParseObject.registerSubclass(Look.class);
+        ParseObject.registerSubclass(UserProfile.class);
 
 		Parse.initialize(this, "LNRiRaziB3sqAU9Txgy8FvLyEOYq4TcGlB1t3DjT",
 				"cKhsPSV1sBPsLXUUfrbEE7NFh0Pa7dojQx3HhLsK");
