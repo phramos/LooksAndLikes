@@ -107,14 +107,16 @@ public class MainActivity extends Activity {
 	}
 
     private void selectItem(int position) {
+        Intent intent;
         switch (position) {
             case 0:
-
+                intent = new Intent(this, UserProfileActivity.class);
+                startActivity(intent);
                 break;
             case 1:
                 break;
             case 2:
-                Intent intent = new Intent(this, NewLookActivity.class);
+                intent = new Intent(this, NewLookActivity.class);
                 startActivity(intent);
                 break;
         }
