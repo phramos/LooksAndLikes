@@ -16,6 +16,7 @@
     <string name="login_with_facebook">Log in with Facebook</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="email">E-mail</string>
 
     <string-array name="navDrawerOptions">
         <item>View profile</item>

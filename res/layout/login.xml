@@ -51,6 +51,7 @@
                       android:layout_height="wrap_content"
                       android:layout_marginTop="5dp"
                       android:layout_marginBottom="20dp"
+                      android:textColor="#372c24"
                       android:singleLine="true"/>
             <!--  Password Label -->
             <TextView android:layout_width="fill_parent"
@@ -62,6 +63,7 @@
                       android:layout_height="wrap_content"
                       android:layout_marginTop="5dp"
                       android:singleLine="true"
+                      android:textColor="#372c24"
                       android:password="true"/>
             <!-- Login button -->
             <Button android:id="@+id/btnLogin"

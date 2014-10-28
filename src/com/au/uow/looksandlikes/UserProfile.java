@@ -21,6 +21,14 @@ public class UserProfile extends ParseObject {
 		put("user", user);
 	}
 
+    public String getFacebookId() {
+        return getString("facebookId");
+    }
+
+    public void setFacebookId(String facebookId) {
+        put("facebookId", facebookId);
+    }
+
 	public ParseFile getProfileImage() {
 		return getParseFile("profileImage");
 	}
@@ -51,6 +59,14 @@ public class UserProfile extends ParseObject {
 
     public void setLocation(String location) {
         put("location", location);
+    }
+
+    public String getEmail() {
+        return getString("email");
+    }
+
+    public void setEmail(String email) {
+        put("email", email);
     }
 
 }
