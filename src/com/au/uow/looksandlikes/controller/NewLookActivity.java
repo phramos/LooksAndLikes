@@ -27,11 +27,13 @@ import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class NewLookActivity extends Activity {
     private Uri mImageCaptureUri;
+    private Uri mCropImagedUri;
 
     private static final int PICK_FROM_CAMERA = 1;
     private static final int CROP_FROM_CAMERA = 2;
@@ -103,16 +105,16 @@ public class NewLookActivity extends Activity {
                 break;
 
             case CROP_FROM_CAMERA:
-                Bundle extras = data.getExtras();
-
-                if (extras != null) {
-                    Bitmap photo = extras.getParcelable("data");
+                Bitmap photo = null;
+                try {
+                    photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mCropImagedUri);
                     saveScaledPhoto(photo);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-                File f = new File(mImageCaptureUri.getPath());
-
-                if (f.exists()) f.delete();
+                File imgFile = new File(mCropImagedUri.getPath());
+                if (imgFile.exists())
+                    imgFile.delete();
 
                 break;
 
@@ -134,21 +136,27 @@ public class NewLookActivity extends Activity {
 
             return;
         } else {
-            intent.setData(mImageCaptureUri);
+            intent.setDataAndType(mImageCaptureUri, "image/*");
 
-            /*intent.putExtra("outputX", 200);
-            intent.putExtra("outputY", 200);*/
+            /*intent.putExtra("outputX", 1000);
+            intent.putExtra("outputY", 1000);*/
             intent.putExtra("aspectX", 1);
             intent.putExtra("aspectY", 1);
             intent.putExtra("scale", true);
-            intent.putExtra("return-data", true);
+            intent.putExtra("return-data", false);
 
             if (size == 1) {
                 Intent i 		= new Intent(intent);
-                ResolveInfo res	= list.get(0);
+                File f = createNewFile("CROP_");
+                try {
+                    f.createNewFile();
+                } catch (IOException ex) {
+                    //VLLog.e("io", ex.getMessage());
+                }
 
-                i.setComponent( new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-
+                mCropImagedUri = Uri.fromFile(f);
+                i.putExtra(MediaStore.EXTRA_OUTPUT, mCropImagedUri);
+                //start the activity - we handle returning in onActivityResult
                 startActivityForResult(i, CROP_FROM_CAMERA);
             } else {
                 for (ResolveInfo res : list) {
@@ -167,9 +175,9 @@ public class NewLookActivity extends Activity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Choose Crop App");
-                builder.setAdapter( adapter, new DialogInterface.OnClickListener() {
-                    public void onClick( DialogInterface dialog, int item ) {
-                        startActivityForResult( cropOptions.get(item).appIntent, CROP_FROM_CAMERA);
+                builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        startActivityForResult(cropOptions.get(item).appIntent, CROP_FROM_CAMERA);
                     }
                 });
 
@@ -197,16 +205,6 @@ public class NewLookActivity extends Activity {
 
     private void saveScaledPhoto(Bitmap lookImage) {
 
-        // Resize photo from camera byte array
-        /*Bitmap lookImageScaled = Bitmap.createScaledBitmap(lookImage, 200, 200
-                * lookImage.getHeight() / lookImage.getWidth(), false);*/
-
-        // Override Android default landscape orientation and save portrait
-        /*Matrix matrix = new Matrix();
-        matrix.postRotate(90);
-        Bitmap photo = Bitmap.createBitmap(lookImage, 0,
-                0, lookImage.getWidth(), lookImage.getHeight());*/
-
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         lookImage.compress(Bitmap.CompressFormat.JPEG, 100, bos);
 
@@ -233,5 +231,29 @@ public class NewLookActivity extends Activity {
         FragmentTransaction transaction = this.getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainer, newLookFragment);
         transaction.commit();
+    }
+
+    private File createNewFile(String prefix){
+        if(prefix==null || "".equalsIgnoreCase(prefix)){
+            prefix="IMG_";
+        }
+        File newDirectory = new File(Environment.getExternalStorageDirectory()+"/mypics/");
+        if(!newDirectory.exists()){
+            if(newDirectory.mkdir()){
+                //VLog.d(mContext.getClass().getName(), newDirectory.getAbsolutePath()+" directory created");
+            }
+        }
+        File file = new File(newDirectory,(prefix+System.currentTimeMillis()+".jpg"));
+        if(file.exists()){
+            //this wont be executed
+            file.delete();
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return file;
     }
 }
