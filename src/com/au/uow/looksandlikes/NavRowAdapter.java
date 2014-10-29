@@ -13,12 +13,16 @@ import android.widget.TextView;
 public class NavRowAdapter extends BaseAdapter {
 	private Context context;
 	private String options[];
-	int[] images = { R.drawable.ic_rate, R.drawable.ic_camera, R.drawable.ic_camera };
+	private String descriptions[];
+	int[] images = { R.drawable.ic_action_person,
+			R.drawable.ic_action_important, R.drawable.ic_action_camera };
 
 	public NavRowAdapter(Context context) {
 		this.context = context;
 		options = context.getResources().getStringArray(
 				R.array.navDrawerOptions);
+		descriptions = context.getResources().getStringArray(
+				R.array.navDrawerDescriptions);
 	}
 
 	@Override
@@ -49,13 +53,17 @@ public class NavRowAdapter extends BaseAdapter {
 			row = inflater.inflate(R.layout.nav_row, parent, false);
 
 		} else {
-			row=convertView;
+			row = convertView;
 		}
-		TextView textView = (TextView) row.findViewById(R.id.navRowTextView);
-		ImageView imageView = (ImageView) row.findViewById(R.id.navRowImageView);
-		
-		//Seting the content into view
-		textView.setText(options[position]);
+		TextView textView1 = (TextView) row
+				.findViewById(R.id.navRowDescription);
+		TextView textView2 = (TextView) row.findViewById(R.id.navRowTextView);
+		ImageView imageView = (ImageView) row
+				.findViewById(R.id.navRowImageView);
+
+		// Seting the content into view
+		textView1.setText(descriptions[position]);
+		textView2.setText(options[position]);
 		imageView.setImageResource(images[position]);
 		return row;
 	}

@@ -1,6 +1,8 @@
 package com.au.uow.looksandlikes.controller;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.ListView;
 
 import com.au.uow.looksandlikes.NavRowAdapter;
 import com.au.uow.looksandlikes.R;
+import com.au.uow.looksandlikes.controller.fragment.RatingFragment;
 import com.parse.ParseUser;
 
 public class MainActivity extends Activity {
@@ -35,25 +38,28 @@ public class MainActivity extends Activity {
 
 		listView.setAdapter(new NavRowAdapter(this));
 		listView.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        });
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				selectItem(position);
+			}
+		});
 
-//		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
-//				R.drawable.ic_drawer, R.string.drawer_open,
-//				R.string.drawer_open);
-		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_open){
+		// drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+		// R.drawable.ic_drawer, R.string.drawer_open,
+		// R.string.drawer_open);
+		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+				R.drawable.ic_drawer, R.string.drawer_open,
+				R.string.drawer_open) {
 			@Override
 			public void onDrawerOpened(View drawerView) {
-				//Activates when the drawer is being open
+				// Activates when the drawer is being open
 				super.onDrawerOpened(drawerView);
 			}
 
 			@Override
 			public void onDrawerClosed(View drawerView) {
-				//Activates when the drawer is being close
+				// Activates when the drawer is being close
 				super.onDrawerClosed(drawerView);
 			}
 		};
@@ -84,12 +90,12 @@ public class MainActivity extends Activity {
 		if (id == R.id.action_settings) {
 			return true;
 		}
-        if (id == R.id.action_logout) {
-            ParseUser.logOut();
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
-		if (drawerToggle.onOptionsItemSelected(item)){
+		if (id == R.id.action_logout) {
+			ParseUser.logOut();
+			Intent intent = new Intent(this, LoginActivity.class);
+			startActivity(intent);
+		}
+		if (drawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -99,24 +105,29 @@ public class MainActivity extends Activity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		// TODO Auto-generated method stub
 		super.onConfigurationChanged(newConfig);
-		//handles the changes on the screen size and the state
+		// handles the changes on the screen size and the state
 		drawerToggle.onConfigurationChanged(newConfig);
 	}
 
-    private void selectItem(int position) {
-        Intent intent;
-        switch (position) {
-            case 0:
-                intent = new Intent(this, UserProfileActivity.class);
-                startActivity(intent);
-                break;
-            case 1:
-                break;
-            case 2:
-                //intent = new Intent(this, NewLookActivity.class);
-                intent = new Intent(this, NewLookActivity.class);
-                startActivity(intent);
-                break;
-        }
-    }
+	private void selectItem(int position) {
+		Intent intent;
+		switch (position) {
+		case 0:
+			intent = new Intent(this, UserProfileActivity.class);
+			startActivity(intent);
+			break;
+		case 1:
+			Fragment fragment = new RatingFragment();
+			drawerLayout.closeDrawer(listView);
+			FragmentManager fragmentManager = getFragmentManager();
+			fragmentManager.beginTransaction()
+					.replace(R.id.mainContent, fragment).commit();
+			break;
+		case 2:
+			// intent = new Intent(this, NewLookActivity.class);
+			intent = new Intent(this, NewLookActivity.class);
+			startActivity(intent);
+			break;
+		}
+	}
 }
