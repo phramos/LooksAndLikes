@@ -111,19 +111,31 @@ public class MainActivity extends Activity {
 
 	private void selectItem(int position) {
 		Intent intent;
+		Fragment fragment = null;
+		FragmentManager fragmentManager = null;
 		switch (position) {
 		case 0:
 			intent = new Intent(this, UserProfileActivity.class);
 			startActivity(intent);
 			break;
+			
 		case 1:
-			Fragment fragment = new RatingFragment();
+			fragment = new RatingFragment();
 			drawerLayout.closeDrawer(listView);
-			FragmentManager fragmentManager = getFragmentManager();
+			fragmentManager = getFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.mainContent, fragment).commit();
 			break;
+			
 		case 2:
+			fragment = new RatingFragment();
+			drawerLayout.closeDrawer(listView);
+			fragmentManager = getFragmentManager();
+			fragmentManager.beginTransaction()
+			.replace(R.id.mainContent, fragment).commit();
+			break;
+			
+		case 3:
 			// intent = new Intent(this, NewLookActivity.class);
 			intent = new Intent(this, NewLookActivity.class);
 			startActivity(intent);

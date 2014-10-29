@@ -15,7 +15,8 @@ public class NavRowAdapter extends BaseAdapter {
 	private String options[];
 	private String descriptions[];
 	int[] images = { R.drawable.ic_action_person,
-			R.drawable.ic_action_important, R.drawable.ic_action_camera };
+			R.drawable.ic_action_important, R.drawable.ic_action_view_rating,
+			R.drawable.ic_action_camera };
 
 	public NavRowAdapter(Context context) {
 		this.context = context;

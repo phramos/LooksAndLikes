@@ -35,12 +35,14 @@
     <string-array name="navDrawerOptions">
         <item>Profile</item>
         <item>Rate Photos</item>
+        <item>View Rating</item>
         <item>Add a photo</item>
     </string-array>
 
     <string-array name="navDrawerDescriptions">
         <item>View and edit your profile</item>
         <item>Rate other users photos</item>
+        <item>View rating of your photos</item>
         <item>Add a photo to be rated</item>
     </string-array>
     
