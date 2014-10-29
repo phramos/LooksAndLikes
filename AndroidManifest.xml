@@ -52,10 +52,6 @@
                 android:name="com.au.uow.looksandlikes.controller.NewLookActivity"
                 android:label="@string/new_look" >
         </activity>
-        <activity
-                android:name="com.au.uow.looksandlikes.controller.UserProfileActivity"
-                android:label="@string/app_name" >
-        </activity>
     </application>
 
 </manifest>

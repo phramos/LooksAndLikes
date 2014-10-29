@@ -18,6 +18,7 @@ import android.widget.ListView;
 import com.au.uow.looksandlikes.NavRowAdapter;
 import com.au.uow.looksandlikes.R;
 import com.au.uow.looksandlikes.controller.fragment.RatingFragment;
+import com.au.uow.looksandlikes.controller.fragment.UserProfileFragment;
 import com.parse.ParseUser;
 
 public class MainActivity extends Activity {
@@ -111,15 +112,22 @@ public class MainActivity extends Activity {
 
 	private void selectItem(int position) {
 		Intent intent;
+        Fragment fragment;
+        FragmentManager fragmentManager;
 		switch (position) {
 		case 0:
-			intent = new Intent(this, UserProfileActivity.class);
-			startActivity(intent);
+			/*intent = new Intent(this, UserProfileActivity.class);
+			startActivity(intent);*/
+            fragment = new UserProfileFragment();
+            drawerLayout.closeDrawer(listView);
+            fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.mainContent, fragment).commit();
 			break;
 		case 1:
-			Fragment fragment = new RatingFragment();
+			fragment = new RatingFragment();
 			drawerLayout.closeDrawer(listView);
-			FragmentManager fragmentManager = getFragmentManager();
+			fragmentManager = getFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.mainContent, fragment).commit();
 			break;
