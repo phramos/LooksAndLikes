@@ -17,6 +17,7 @@
     <string name="login_with_facebook">Log in with Facebook</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="undefined">Undefined content</string>
 
     <string name="title_activity_main">MainActivity</string>
     <string name="title_section1">Section 1</string>
@@ -32,10 +33,17 @@
 
     <!-- String Arrays -->
     <string-array name="navDrawerOptions">
-        <item>View profile</item>
+        <item>Profile</item>
         <item>Rate Photos</item>
         <item>Add a photo</item>
     </string-array>
+
+    <string-array name="navDrawerDescriptions">
+        <item>View and edit your profile</item>
+        <item>Rate other users photos</item>
+        <item>Add a photo to be rated</item>
+    </string-array>
+    
     <string-array name="ratings_array">
         <item>10</item>
         <item>9</item>
@@ -49,7 +57,7 @@
         <item>1</item>
     </string-array>
     <!-- Collors -->
-    <color name="blue">#6972C7</color>
+    <color name="blue">#3B5997</color>
     <color name="gray">#9E9C8B</color>
     <color name="white">#FFFFFF</color>
 
