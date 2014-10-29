@@ -10,7 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.au.uow.looksandlikes.R;
+import com.au.uow.looksandlikes.UserProfile;
 import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -65,8 +67,8 @@ public class RegisterActivity extends Activity {
                 user.signUpInBackground(new SignUpCallback() {
                     public void done(ParseException e) {
                         if (e == null) {
+                            createNewUserProfile();
                             finish();
-                            // Hooray! Let them use the app now.
                         } else {
                             // Sign up didn't succeed. Look at the ParseException
                             // to figure out what went wrong
@@ -76,5 +78,17 @@ public class RegisterActivity extends Activity {
                 });
             }
         });
+    }
+
+    private void createNewUserProfile() {
+        UserProfile userProfile = new UserProfile();
+        userProfile.setUser(ParseUser.getCurrentUser());
+        userProfile.setName(fullname.getText().toString());
+        userProfile.setEmail(email.getText().toString());
+        try {
+            userProfile.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }

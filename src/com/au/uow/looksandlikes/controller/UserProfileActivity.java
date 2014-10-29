@@ -2,32 +2,38 @@ package com.au.uow.looksandlikes.controller;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.au.uow.looksandlikes.R;
+import com.au.uow.looksandlikes.UserProfile;
 import com.facebook.FacebookRequestError;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.ProfilePictureView;
-import com.parse.ParseFacebookUtils;
-import com.parse.ParseUser;
+import com.parse.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class UserProfileActivity extends Activity {
 
-	private ProfilePictureView userProfilePictureView;
+	private ProfilePictureView userProfilePictureFacebookView;
+    private ImageView userProfilePictureView;
 	private TextView userNameView;
 	private TextView userLocationView;
 	private TextView userGenderView;
-	private TextView userDateOfBirthView;
-	private TextView userRelationshipView;
+	private TextView userEmailView;
 	private Button logoutButton;
+    private UserProfile currentUserProfile;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +41,12 @@ public class UserProfileActivity extends Activity {
 
 		setContentView(R.layout.activity_userprofile);
 
-		userProfilePictureView = (ProfilePictureView) findViewById(R.id.userProfilePicture);
+        userProfilePictureFacebookView = (ProfilePictureView) findViewById(R.id.userProfilePictureFacebook);
+        userProfilePictureView = (ImageView) findViewById(R.id.userProfilePicture);
 		userNameView = (TextView) findViewById(R.id.userName);
 		userLocationView = (TextView) findViewById(R.id.userLocation);
 		userGenderView = (TextView) findViewById(R.id.userGender);
-		userDateOfBirthView = (TextView) findViewById(R.id.userDateOfBirth);
-		userRelationshipView = (TextView) findViewById(R.id.userRelationship);
+		userEmailView = (TextView) findViewById(R.id.userEmail);
 
 		logoutButton = (Button) findViewById(R.id.logoutButton);
 		logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -50,11 +56,19 @@ public class UserProfileActivity extends Activity {
 			}
 		});
 
-		// Fetch Facebook user info if the session is active
-		Session session = ParseFacebookUtils.getSession();
-		if (session != null && session.isOpened()) {
-			makeMeRequest();
-		}
+        ParseQuery<UserProfile> query = ParseQuery.getQuery(UserProfile.class);
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        List<UserProfile> userProfiles = null;
+        try {
+            userProfiles = query.find();
+
+            if (userProfiles.size() > 0) {
+                currentUserProfile = userProfiles.get(0);
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 	}
 
 	@Override
@@ -73,115 +87,44 @@ public class UserProfileActivity extends Activity {
 		}
 	}
 
-	private void makeMeRequest() {
-		Request request = Request.newMeRequest(ParseFacebookUtils.getSession(),
-                new Request.GraphUserCallback() {
-                    @Override
-                    public void onCompleted(GraphUser user, Response response) {
-                        if (user != null) {
-                            // Create a JSON object to hold the profile info
-                            JSONObject userProfile = new JSONObject();
-                            try {
-                                // Populate the JSON object
-                                userProfile.put("facebookId", user.getId());
-                                userProfile.put("name", user.getName());
-                                if (user.getLocation().getProperty("name") != null) {
-                                    userProfile.put("location", (String) user
-                                            .getLocation().getProperty("name"));
-                                }
-                                if (user.getProperty("gender") != null) {
-                                    userProfile.put("gender",
-                                            (String) user.getProperty("gender"));
-                                }
-                                if (user.getBirthday() != null) {
-                                    userProfile.put("birthday",
-                                            user.getBirthday());
-                                }
-                                if (user.getProperty("relationship_status") != null) {
-                                    userProfile
-                                            .put("relationship_status",
-                                                    (String) user
-                                                            .getProperty("relationship_status"));
-                                }
-
-                                // Save the user profile info in a user property
-                                ParseUser currentUser = ParseUser
-                                        .getCurrentUser();
-                                currentUser.put("profile", userProfile);
-                                currentUser.saveInBackground();
-
-                                // Show the user info
-                                updateViewsWithProfileInfo();
-                            } catch (JSONException e) {
-                                Log.d(LooksAndLikes.TAG,
-                                        "Error parsing returned user data.");
-                            }
-
-                        } else if (response.getError() != null) {
-                            if ((response.getError().getCategory() == FacebookRequestError.Category.AUTHENTICATION_RETRY)
-                                    || (response.getError().getCategory() == FacebookRequestError.Category.AUTHENTICATION_REOPEN_SESSION)) {
-                                Log.d(LooksAndLikes.TAG,
-                                        "The facebook session was invalidated.");
-                                onLogoutButtonClicked();
-                            } else {
-                                Log.d(LooksAndLikes.TAG,
-                                        "Some other error: "
-                                                + response.getError()
-                                                .getErrorMessage());
-                            }
-                        }
-                    }
-                });
-		request.executeAsync();
-
-	}
-
 	private void updateViewsWithProfileInfo() {
-		ParseUser currentUser = ParseUser.getCurrentUser();
-		if (currentUser.get("profile") != null) {
-			JSONObject userProfile = currentUser.getJSONObject("profile");
-			try {
-				if (userProfile.getString("facebookId") != null) {
-					String facebookId = userProfile.get("facebookId")
-							.toString();
-					userProfilePictureView.setProfileId(facebookId);
-				} else {
-					// Show the default, blank user profile picture
-					userProfilePictureView.setProfileId(null);
-				}
-				if (userProfile.getString("name") != null) {
-					userNameView.setText(userProfile.getString("name"));
-				} else {
-					userNameView.setText("");
-				}
-				if (userProfile.getString("location") != null) {
-					userLocationView.setText(userProfile.getString("location"));
-				} else {
-					userLocationView.setText("");
-				}
-				if (userProfile.getString("gender") != null) {
-					userGenderView.setText(userProfile.getString("gender"));
-				} else {
-					userGenderView.setText("");
-				}
-				if (userProfile.getString("birthday") != null) {
-					userDateOfBirthView.setText(userProfile
-							.getString("birthday"));
-				} else {
-					userDateOfBirthView.setText("");
-				}
-				if (userProfile.getString("relationship_status") != null) {
-					userRelationshipView.setText(userProfile
-							.getString("relationship_status"));
-				} else {
-					userRelationshipView.setText("");
-				}
-			} catch (JSONException e) {
-				Log.d(LooksAndLikes.TAG,
-						"Error parsing saved user data.");
-			}
-
-		}
+        if (currentUserProfile.getFacebookId() != null) {
+            userProfilePictureFacebookView.setProfileId(currentUserProfile.getFacebookId());
+        } else {
+            if(currentUserProfile.getProfileImage() != null) {
+                userProfilePictureFacebookView.setVisibility(View.INVISIBLE);
+                userProfilePictureView.setVisibility(View.VISIBLE);
+                try {
+                    Bitmap bmp = BitmapFactory.decodeByteArray(currentUserProfile.getProfileImage().getData(), 0, currentUserProfile.getProfileImage().getData().length);
+                    userProfilePictureView.setImageBitmap(bmp);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                // Show the default, blank user profile picture
+                userProfilePictureFacebookView.setProfileId(null);
+            }
+        }
+        if (currentUserProfile.getName() != null) {
+            userNameView.setText(currentUserProfile.getName());
+        } else {
+            userNameView.setText("");
+        }
+        if (currentUserProfile.getLocation() != null) {
+            userLocationView.setText(currentUserProfile.getLocation());
+        } else {
+            userLocationView.setText("");
+        }
+        if (currentUserProfile.getGender() != null) {
+            userGenderView.setText(currentUserProfile.getGender());
+        } else {
+            userGenderView.setText("");
+        }
+        if (currentUserProfile.getEmail() != null) {
+            userEmailView.setText(currentUserProfile.getEmail());
+        } else {
+            userEmailView.setText("");
+        }
 	}
 
 	private void onLogoutButtonClicked() {

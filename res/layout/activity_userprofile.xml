@@ -3,39 +3,56 @@
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal" >
-            <com.facebook.widget.ProfilePictureView
-                android:id="@+id/userProfilePicture"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal"
-                facebook:preset_size="small" />
-            <TextView
-                android:id="@+id/userName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="center"
-                android:textColor="#333"
-                android:textSize="18sp" />
-    </LinearLayout>
-        
+    android:orientation="vertical"
+        android:background="#fff">
+
     <TableLayout
         android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
             android:gravity="center_horizontal"
             android:background="@drawable/table_round_shape">
+
+        <TableRow>
+            <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <com.facebook.widget.ProfilePictureView
+                        android:id="@+id/userProfilePictureFacebook"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left"
+                        facebook:preset_size="small" />
+                <ImageView
+                        android:id="@+id/userProfilePicture"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentLeft="true"
+                        android:scaleType="centerInside"
+                        android:gravity="left"
+                        android:visibility="invisible"/>
+            </RelativeLayout>
+            <TextView
+                    android:id="@+id/userName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="#333"
+                    android:textSize="18sp" />
+
+        </TableRow>
+        <TableRow>
+            <View
+                    android:layout_span="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0.5dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="#999" />
+        </TableRow>
         <TableRow>
             <TextView
                 android:layout_width="wrap_content"
@@ -51,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="left"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </TableRow>
         <TableRow>
             <View
@@ -78,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="left"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </TableRow>
         <TableRow>
             <View
@@ -98,50 +115,23 @@
                 android:layout_gravity="right"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:text="@string/date_of_birth" />
+                android:text="@string/email" />
             <TextView
-                android:id="@+id/userDateOfBirth"
+                android:id="@+id/userEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="left"
-                android:textSize="16sp" />
-        </TableRow>
-        <TableRow>
-            <View
-                android:layout_span="2"
-                android:layout_width="wrap_content"
-                android:layout_height="0.5dp"
-                android:layout_weight="1"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="#999" />
-        </TableRow>
-        <TableRow>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="right"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:text="@string/relationship" />
-            <TextView
-                android:id="@+id/userRelationship"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="left"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </TableRow>
     </TableLayout>
-    
+
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="10dp"
         android:text="@string/logout"
         android:textColor="#fff"
         android:layout_gravity="center_horizontal"

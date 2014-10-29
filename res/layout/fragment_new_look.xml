@@ -52,7 +52,7 @@
                 android:text="@string/cancel_button_text"
                 android:layout_weight="0.5"
                 android:weightSum="1"/>
-            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

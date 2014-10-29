@@ -1,8 +1,6 @@
 package com.au.uow.looksandlikes.controller;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -13,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.au.uow.looksandlikes.NavRowAdapter;
@@ -24,7 +21,7 @@ public class MainActivity extends Activity {
 
 	private DrawerLayout drawerLayout;
 	private ListView listView;
-	
+
 	private ActionBarDrawerToggle drawerToggle;
 
 	@Override
@@ -53,7 +50,7 @@ public class MainActivity extends Activity {
 				//Activates when the drawer is being open
 				super.onDrawerOpened(drawerView);
 			}
-			
+
 			@Override
 			public void onDrawerClosed(View drawerView) {
 				//Activates when the drawer is being close
@@ -71,7 +68,7 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
+
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
@@ -102,19 +99,22 @@ public class MainActivity extends Activity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		// TODO Auto-generated method stub
 		super.onConfigurationChanged(newConfig);
-		//handles the changes on the screen size and the state  
+		//handles the changes on the screen size and the state
 		drawerToggle.onConfigurationChanged(newConfig);
 	}
 
     private void selectItem(int position) {
+        Intent intent;
         switch (position) {
             case 0:
-
+                intent = new Intent(this, UserProfileActivity.class);
+                startActivity(intent);
                 break;
             case 1:
                 break;
             case 2:
-                Intent intent = new Intent(this, NewLookActivity.class);
+                //intent = new Intent(this, NewLookActivity.class);
+                intent = new Intent(this, NewLookActivity.class);
                 startActivity(intent);
                 break;
         }
