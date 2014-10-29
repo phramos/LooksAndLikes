@@ -136,8 +136,8 @@ public class NewLookActivity extends Activity {
         } else {
             intent.setData(mImageCaptureUri);
 
-            intent.putExtra("outputX", 200);
-            intent.putExtra("outputY", 200);
+            /*intent.putExtra("outputX", 200);
+            intent.putExtra("outputY", 200);*/
             intent.putExtra("aspectX", 1);
             intent.putExtra("aspectY", 1);
             intent.putExtra("scale", true);
@@ -198,14 +198,14 @@ public class NewLookActivity extends Activity {
     private void saveScaledPhoto(Bitmap lookImage) {
 
         // Resize photo from camera byte array
-        Bitmap lookImageScaled = Bitmap.createScaledBitmap(lookImage, 200, 200
-                * lookImage.getHeight() / lookImage.getWidth(), false);
+        /*Bitmap lookImageScaled = Bitmap.createScaledBitmap(lookImage, 200, 200
+                * lookImage.getHeight() / lookImage.getWidth(), false);*/
 
         // Override Android default landscape orientation and save portrait
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
-        Bitmap rotatedScaledlookImage = Bitmap.createBitmap(lookImageScaled, 0,
-                0, lookImageScaled.getWidth(), lookImageScaled.getHeight(),
+        Bitmap rotatedScaledlookImage = Bitmap.createBitmap(lookImage, 0,
+                0, lookImage.getWidth(), lookImage.getHeight(),
                 matrix, true);
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
