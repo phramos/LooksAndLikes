@@ -1,5 +1,6 @@
 package com.au.uow.looksandlikes.controller.fragment;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,8 +42,11 @@ public class ViewRatingsFragment extends Fragment {
 		
 		for (Look look : getLooks(ParseUser.getCurrentUser())) {
 			Bitmap image = ImageUtils.getBitmapFromParseFile(look.getPhotoFile());
-			String rating = look.getRating();
-			ratedImages.add(new RatedImage(image, rating));
+			Double rating = look.getRating();
+			DecimalFormat format = new DecimalFormat("#0");
+			String ratingString = format.format(Math.round(rating));
+			
+			ratedImages.add(new RatedImage(image, ratingString));
 		}
 		return ratedImages;
 	}

@@ -62,6 +62,7 @@ public class RatingFragment extends Fragment implements
 	public void onFinalRating(int rating, boolean swipe) {
 		RatingModel ratingModel = new RatingModel(ParseUser.getCurrentUser(),
 				look, rating);
+		look.updateRatingAverage(rating+0.0);
 		try {
 			ratingModel.save();
 		} catch (ParseException e) {

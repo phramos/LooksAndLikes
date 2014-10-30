@@ -54,7 +54,10 @@ public class NewLookFragment extends Fragment {
 				look.setAuthor(ParseUser.getCurrentUser());
 
 				// Add the rating
-				look.setRating("2");
+				look.setRating(0.0);
+				
+				//Set the amount of votes to 0
+				look.setTotalVotes(0);
 
 				// If the user added a photo, that data will be
 				// added in the CameraFragment
