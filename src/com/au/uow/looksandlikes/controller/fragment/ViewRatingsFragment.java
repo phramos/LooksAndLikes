@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
 import com.au.uow.looksandlikes.Look;
@@ -34,6 +36,15 @@ public class ViewRatingsFragment extends Fragment {
 		gridView = (GridView) v.findViewById(R.id.gridViewRating);
 		customGridAdapter = new GridViewRatingAdapter(getActivity(), R.layout.rating_grid_row, getImagesRated());
 		gridView.setAdapter(customGridAdapter);
+		gridView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		return v;
 	}
 	
@@ -46,7 +57,7 @@ public class ViewRatingsFragment extends Fragment {
 			DecimalFormat format = new DecimalFormat("#0");
 			String ratingString = format.format(Math.round(rating));
 			
-			ratedImages.add(new RatedImage(image, ratingString));
+			ratedImages.add(new RatedImage(image, ratingString, Math.round(rating)));
 		}
 		return ratedImages;
 	}

@@ -37,6 +37,7 @@ public class GridViewRatingAdapter extends ArrayAdapter<RatedImage> {
 			holder = new ViewHolder();
 			holder.imageTitle = (TextView) row.findViewById(R.id.textViewAvgRating);
 			holder.image = (ImageView) row.findViewById(R.id.imageRated);
+			holder.star = (ImageView) row.findViewById(R.id.imageStar);
 			row.setTag(holder);
 		} else {
 			holder = (ViewHolder) row.getTag();
@@ -45,11 +46,20 @@ public class GridViewRatingAdapter extends ArrayAdapter<RatedImage> {
 		RatedImage item = data.get(position);
 		holder.imageTitle.setText(item.getTitle());
 		holder.image.setImageBitmap(item.getImage());
+		//define the color of the star based on the rating of the photo
+		if (item.getRating()<4){
+			holder.star.setImageResource(R.drawable.ic_star_red);
+		}else if (item.getRating()<7){
+			holder.star.setImageResource(R.drawable.ic_star_yellow);
+		}else{
+			holder.star.setImageResource(R.drawable.ic_star_green);
+		}
 		return row;
 	}
 
 	static class ViewHolder {
 		TextView imageTitle;
 		ImageView image;
+		ImageView star;
 	}
 }

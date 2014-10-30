@@ -43,7 +43,7 @@ public class RatingFragment extends Fragment implements
 		ratingText = (TextView) v.findViewById(R.id.rating);
 		imageView = (ImageView) v.findViewById(R.id.imageToBeRated);
 		starBar = (StarBar) v.findViewById(R.id.starBar);
-		changeImageToBeRated();
+		changeImageToBeRated(); 
 		return v;
 	}
 

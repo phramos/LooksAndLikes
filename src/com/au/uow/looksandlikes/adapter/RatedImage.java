@@ -5,11 +5,13 @@ import android.graphics.Bitmap;
 public class RatedImage {
 	private Bitmap image;
 	private String title;
+	private Long rating;
 
-	public RatedImage(Bitmap image, String title) {
+	public RatedImage(Bitmap image, String title, Long rating) {
 		super();
 		this.image = image;
 		this.title = title;
+		this.rating = rating;
 	}
 
 	public Bitmap getImage() {
@@ -27,4 +29,13 @@ public class RatedImage {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+	public Long getRating() {
+		return rating;
+	}
+
+	public void setRating(Long rating) {
+		this.rating = rating;
+	}
+
 }
