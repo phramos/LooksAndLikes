@@ -3,6 +3,7 @@ package com.au.uow.looksandlikes.controller;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -33,6 +34,12 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        RatingFragment ratingFragment = new RatingFragment();
+        fragmentTransaction.replace(R.id.mainContent, ratingFragment);
+
+        fragmentTransaction.commit();
 
 		// linking the views with the models
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);

@@ -204,7 +204,10 @@ public class NewLookActivity extends Activity {
     }
 
     private void saveScaledPhoto(Bitmap lookImage) {
-
+        if(lookImage.getWidth() > 1000 || lookImage.getHeight() > 1000) {
+            lookImage = Bitmap.createScaledBitmap(lookImage, 1000, 1000
+                    * lookImage.getHeight() / lookImage.getWidth(), false);
+        }
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         lookImage.compress(Bitmap.CompressFormat.JPEG, 100, bos);
 
