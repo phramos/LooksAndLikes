@@ -18,6 +18,8 @@ import android.widget.ListView;
 import com.au.uow.looksandlikes.NavRowAdapter;
 import com.au.uow.looksandlikes.R;
 import com.au.uow.looksandlikes.controller.fragment.RatingFragment;
+import com.au.uow.looksandlikes.controller.fragment.UserProfileFragment;
+import com.au.uow.looksandlikes.controller.fragment.ViewRatingsFragment;
 import com.parse.ParseUser;
 
 public class MainActivity extends Activity {
@@ -115,8 +117,13 @@ public class MainActivity extends Activity {
 		FragmentManager fragmentManager = null;
 		switch (position) {
 		case 0:
-			intent = new Intent(this, UserProfileActivity.class);
-			startActivity(intent);
+			/*intent = new Intent(this, UserProfileActivity.class);
+			startActivity(intent);*/
+            fragment = new UserProfileFragment();
+            drawerLayout.closeDrawer(listView);
+            fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.mainContent, fragment).commit();
 			break;
 			
 		case 1:
@@ -128,7 +135,7 @@ public class MainActivity extends Activity {
 			break;
 			
 		case 2:
-			fragment = new RatingFragment();
+			fragment = new ViewRatingsFragment();
 			drawerLayout.closeDrawer(listView);
 			fragmentManager = getFragmentManager();
 			fragmentManager.beginTransaction()

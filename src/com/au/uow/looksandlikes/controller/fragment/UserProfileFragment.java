@@ -1,30 +1,28 @@
-package com.au.uow.looksandlikes.controller;
+package com.au.uow.looksandlikes.controller.fragment;
 
-import android.app.Activity;
+import java.util.List;
+
+import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.au.uow.looksandlikes.R;
 import com.au.uow.looksandlikes.UserProfile;
-import com.facebook.FacebookRequestError;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.model.GraphUser;
+import com.au.uow.looksandlikes.controller.LoginActivity;
 import com.facebook.widget.ProfilePictureView;
-import com.parse.*;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
-import java.util.List;
-
-public class UserProfileActivity extends Activity {
+public class UserProfileFragment extends Fragment {
 
 	private ProfilePictureView userProfilePictureFacebookView;
     private ImageView userProfilePictureView;
@@ -36,19 +34,19 @@ public class UserProfileActivity extends Activity {
     private UserProfile currentUserProfile;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-		setContentView(R.layout.activity_userprofile);
+        View v = inflater.inflate(R.layout.fragment_userprofile, container, false);
 
-        userProfilePictureFacebookView = (ProfilePictureView) findViewById(R.id.userProfilePictureFacebook);
-        userProfilePictureView = (ImageView) findViewById(R.id.userProfilePicture);
-		userNameView = (TextView) findViewById(R.id.userName);
-		userLocationView = (TextView) findViewById(R.id.userLocation);
-		userGenderView = (TextView) findViewById(R.id.userGender);
-		userEmailView = (TextView) findViewById(R.id.userEmail);
+        userProfilePictureFacebookView = (ProfilePictureView) v.findViewById(R.id.userProfilePictureFacebook);
+        userProfilePictureView = (ImageView) v.findViewById(R.id.userProfilePicture);
+		userNameView = (TextView) v.findViewById(R.id.userName);
+		userLocationView = (TextView) v.findViewById(R.id.userLocation);
+		userGenderView = (TextView) v.findViewById(R.id.userGender);
+		userEmailView = (TextView) v.findViewById(R.id.userEmail);
 
-		logoutButton = (Button) findViewById(R.id.logoutButton);
+		logoutButton = (Button) v.findViewById(R.id.logoutButton);
 		logoutButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -69,6 +67,7 @@ public class UserProfileActivity extends Activity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        return v;
 	}
 
 	@Override
@@ -136,7 +135,7 @@ public class UserProfileActivity extends Activity {
 	}
 
 	private void startLoginActivity() {
-		Intent intent = new Intent(this, LoginActivity.class);
+		Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent);
