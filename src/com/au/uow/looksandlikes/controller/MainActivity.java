@@ -157,7 +157,7 @@ public class MainActivity extends Activity {
 		case 3:
 			// intent = new Intent(this, NewLookActivity.class);
 			intent = new Intent(this, NewLookActivity.class);
-			startActivity(intent);
+            startActivityForResult(intent, 0);
 			break;
 		}
 	}
@@ -175,4 +175,17 @@ public class MainActivity extends Activity {
 		if (progressDialog != null && progressDialog.isShowing())
 			progressDialog.dismiss();
 	}
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) return;
+
+        switch (requestCode) {
+            case RESULT_CANCELED:
+                //Return to rating fragment
+                selectItem(1);
+
+                break;
+        }
+    }
 }

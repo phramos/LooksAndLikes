@@ -1,9 +1,6 @@
 package com.au.uow.looksandlikes.controller;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.app.*;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.DialogInterface;
@@ -41,6 +38,8 @@ public class NewLookActivity extends Activity {
 
     private Look look;
     private ParseFile photoFile;
+
+    private Dialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,7 +88,11 @@ public class NewLookActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != RESULT_OK) return;
+        if (resultCode != RESULT_OK) {
+            setResult(Activity.RESULT_CANCELED);
+            finish();
+            return;
+        }
 
         switch (requestCode) {
             case PICK_FROM_CAMERA:
@@ -204,8 +207,8 @@ public class NewLookActivity extends Activity {
     }
 
     private void saveScaledPhoto(Bitmap lookImage) {
-        if(lookImage.getWidth() > 1000 || lookImage.getHeight() > 1000) {
-            lookImage = Bitmap.createScaledBitmap(lookImage, 1000, 1000
+        if(lookImage.getWidth() > 800 || lookImage.getHeight() > 800) {
+            lookImage = Bitmap.createScaledBitmap(lookImage, 800, 800
                     * lookImage.getHeight() / lookImage.getWidth(), false);
         }
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -215,9 +218,14 @@ public class NewLookActivity extends Activity {
 
         // Save the scaled image to Parse
         photoFile = new ParseFile("look_photo.jpg", scaledData);
+
+        NewLookActivity.this.progressDialog = ProgressDialog.show(
+                NewLookActivity.this, "", "Saving picture...", true);
+
         photoFile.saveInBackground(new SaveCallback() {
 
             public void done(ParseException e) {
+
                 if (e != null) {
                     e.printStackTrace();
                 } else {
@@ -229,6 +237,7 @@ public class NewLookActivity extends Activity {
 
     private void addPhotoTolookAndReturn(ParseFile photoFile) {
         look.setPhotoFile(photoFile);
+        NewLookActivity.this.progressDialog.dismiss();
 
         Fragment newLookFragment = new NewLookFragment();
         FragmentTransaction transaction = this.getFragmentManager().beginTransaction();

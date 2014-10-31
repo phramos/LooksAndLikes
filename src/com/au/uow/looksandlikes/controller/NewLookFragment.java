@@ -1,7 +1,9 @@
 package com.au.uow.looksandlikes.controller;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,8 @@ public class NewLookFragment extends Fragment {
 	private Spinner lookRating;
 	private ParseImageView lookPreview;
 
+    private Dialog progressDialog;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,6 +48,10 @@ public class NewLookFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
+
+                progressDialog = ProgressDialog.show(
+                        getActivity(), "", "Saving look...", true);
+
 				Look look = ((NewLookActivity) getActivity()).getCurrentlook();
 
 				// When the user clicks "Save," upload the look to Parse
@@ -67,7 +75,8 @@ public class NewLookFragment extends Fragment {
 
 					@Override
 					public void done(ParseException e) {
-						if (e == null) {
+                        progressDialog.dismiss();
+                        if (e == null) {
 							getActivity().setResult(Activity.RESULT_OK);
 							getActivity().finish();
 						} else {

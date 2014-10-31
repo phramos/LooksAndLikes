@@ -135,6 +135,7 @@ public class LoginActivity extends Activity {
                     makeMeRequest();
 					Log.d(LooksAndLikes.TAG,
 							"User signed up and logged in through Facebook!");
+                    createNewUserProfile();
                     goToMainActivity();
 				} else {
 					Log.d(LooksAndLikes.TAG,
@@ -147,11 +148,14 @@ public class LoginActivity extends Activity {
 
     private void createNewUserProfile() {
         ParseUser currentUser = ParseUser.getCurrentUser();
+
+        currentUserProfile = new UserProfile();
+        currentUserProfile.setUser(currentUser);
+
         if (currentUser.get("profile") != null) {
             JSONObject userProfile = currentUser.getJSONObject("profile");
+
             try {
-                currentUserProfile = new UserProfile();
-                currentUserProfile.setUser(currentUser);
 
                 if (userProfile.getString("facebookId") != null) {
                     currentUserProfile.setFacebookId(userProfile.getString("facebookId"));
@@ -173,13 +177,12 @@ public class LoginActivity extends Activity {
                     currentUserProfile.setEmail(userProfile.getString("email"));
                 }
 
-                currentUserProfile.saveInBackground();
-
             } catch (JSONException e) {
                 Log.d(LooksAndLikes.TAG,
                         "Error parsing saved user data.");
             }
         }
+        currentUserProfile.saveInBackground();
     }
 
     private void makeMeRequest() {
@@ -218,7 +221,6 @@ public class LoginActivity extends Activity {
                                 currentUser.put("profile", userProfile);
                                 currentUser.saveInBackground();
 
-                                createNewUserProfile();
                             } catch (JSONException e) {
                                 Log.d(LooksAndLikes.TAG,
                                         "Error parsing returned user data.");
