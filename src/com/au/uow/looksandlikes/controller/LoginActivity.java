@@ -135,7 +135,6 @@ public class LoginActivity extends Activity {
                     makeMeRequest();
 					Log.d(LooksAndLikes.TAG,
 							"User signed up and logged in through Facebook!");
-                    createNewUserProfile();
                     goToMainActivity();
 				} else {
 					Log.d(LooksAndLikes.TAG,
@@ -219,11 +218,13 @@ public class LoginActivity extends Activity {
                                 // Save the user profile info in a user property
                                 ParseUser currentUser = ParseUser.getCurrentUser();
                                 currentUser.put("profile", userProfile);
-                                currentUser.saveInBackground();
+                                currentUser.save();
 
                             } catch (JSONException e) {
                                 Log.d(LooksAndLikes.TAG,
                                         "Error parsing returned user data.");
+                            } catch (ParseException e) {
+                                e.printStackTrace();
                             }
 
                         } else if (response.getError() != null) {
@@ -239,6 +240,7 @@ public class LoginActivity extends Activity {
                                                 .getErrorMessage());
                             }
                         }
+                        createNewUserProfile();
                     }
                 });
         request.executeAsync();
