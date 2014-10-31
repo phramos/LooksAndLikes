@@ -1,55 +1,68 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
-    android:background="@drawable/grid_color_selector"
-    android:clickable="true"
-    android:focusable="true"
-    android:orientation="vertical"
-    android:padding="5dp" >
-
-    <ImageView
-        android:id="@+id/imageRated"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-       android:src="@drawable/look_sample" >
-    </ImageView>
+    android:clickable="false"
+    android:focusable="false"
+    android:focusableInTouchMode="false" >
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_marginTop="5dp"
-        android:background="#00000000"
-        android:clickable="true"
-        android:focusable="true"
+        android:background="@drawable/grid_color_selector"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:orientation="vertical"
         android:padding="5dp" >
 
         <ImageView
-            android:id="@+id/imageStar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:src="@drawable/ic_star_green" >
+            android:id="@+id/imageRated"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false" >
         </ImageView>
 
-        <TextView
-            android:id="@+id/textViewAvgRating"
-            android:layout_width="fill_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" >
-        </TextView>
+            android:background="#00000000"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:orientation="vertical"
+            android:padding="5dp" >
+
+            <ImageView
+                android:id="@+id/imageStar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="5dp"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="center"
+                android:src="@drawable/ic_star_green" >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/textViewAvgRating"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="5dp"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" >
+            </TextView>
+        </RelativeLayout>
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

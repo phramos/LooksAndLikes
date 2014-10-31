@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -27,19 +28,21 @@ public class MainActivity extends Activity {
 
 	private DrawerLayout drawerLayout;
 	private ListView listView;
-
+	private ProgressDialog progressDialog;
 	private ActionBarDrawerToggle drawerToggle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		progressDialog = new ProgressDialog(this); 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        RatingFragment ratingFragment = new RatingFragment();
-        fragmentTransaction.replace(R.id.mainContent, ratingFragment);
+		FragmentManager fragmentManager = getFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		RatingFragment ratingFragment = new RatingFragment();
+		fragmentTransaction.replace(R.id.mainContent, ratingFragment);
 
-        fragmentTransaction.commit();
+		fragmentTransaction.commit();
 
 		// linking the views with the models
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -54,9 +57,6 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		// drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
-		// R.drawable.ic_drawer, R.string.drawer_open,
-		// R.string.drawer_open);
 		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
 				R.drawable.ic_drawer, R.string.drawer_open,
 				R.string.drawer_open) {
@@ -124,36 +124,55 @@ public class MainActivity extends Activity {
 		FragmentManager fragmentManager = null;
 		switch (position) {
 		case 0:
-			/*intent = new Intent(this, UserProfileActivity.class);
-			startActivity(intent);*/
-            fragment = new UserProfileFragment();
-            drawerLayout.closeDrawer(listView);
-            fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.mainContent, fragment).commit();
-			break;
-			
-		case 1:
-			fragment = new RatingFragment();
+			/*
+			 * intent = new Intent(this, UserProfileActivity.class);
+			 * startActivity(intent);
+			 */
+			fragment = new UserProfileFragment();
 			drawerLayout.closeDrawer(listView);
 			fragmentManager = getFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.mainContent, fragment).commit();
 			break;
+
+		case 1:
 			
+			fragment = new RatingFragment();
+			drawerLayout.closeDrawer(listView);
+			fragmentManager = getFragmentManager();
+			fragmentManager.beginTransaction()
+					.replace(R.id.mainContent, fragment).commit();
+			
+			break;
+
 		case 2:
 			fragment = new ViewRatingsFragment();
 			drawerLayout.closeDrawer(listView);
 			fragmentManager = getFragmentManager();
 			fragmentManager.beginTransaction()
-			.replace(R.id.mainContent, fragment).commit();
+					.replace(R.id.mainContent, fragment).commit();
+			dismissProgressDialog();
 			break;
-			
+
 		case 3:
 			// intent = new Intent(this, NewLookActivity.class);
 			intent = new Intent(this, NewLookActivity.class);
 			startActivity(intent);
 			break;
 		}
+	}
+
+	public void showProgressDialog(String msg) {
+		progressDialog.setMessage(msg);
+		progressDialog.show();
+		progressDialog.setCancelable(false);
+		progressDialog.setCanceledOnTouchOutside(false);
+		progressDialog = new ProgressDialog(this);
+
+	}
+
+	public void dismissProgressDialog() {
+		if (progressDialog != null && progressDialog.isShowing())
+			progressDialog.dismiss();
 	}
 }

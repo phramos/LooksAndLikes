@@ -1,57 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.au.uow.looksandlikes"
-    android:versionCode="1"
-    android:versionName="1.0" >
-
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="21" />
-
-    <application
-        android:name=".controller.LooksAndLikes"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" 
- 		android:theme="@style/android:Theme.Holo.Light">
-        <activity
-            android:name=".controller.LoginActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTop" >
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest android:versionCode="1" android:versionName="1.0"
+    package="com.au.uow.looksandlikes" xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="21"/>
+    <application android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:name=".controller.LooksAndLikes" android:theme="@style/android:Theme.Holo.Light">
+        <activity android:label="@string/app_name"
+            android:launchMode="singleTop" android:name=".controller.LoginActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.facebook.LoginActivity"
-            android:label="@string/app_name" />
+        <activity android:label="@string/app_name" android:name="com.facebook.LoginActivity"/>
         <!-- Entry for RegisterActivity.class -->
-        <activity
-            android:name=".controller.RegisterActivity"
-            android:label="Register New Account" >
-        </activity>
-
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/app_id" />
-
-        <activity
-            android:name="com.au.uow.looksandlikes.controller.MainActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
-                android:name="com.au.uow.looksandlikes.controller.NewLookActivity"
-                android:label="@string/new_look" >
-        </activity>
+        <activity android:label="Register New Account" android:name=".controller.RegisterActivity"/>
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
+        <activity android:label="@string/app_name" android:name="com.au.uow.looksandlikes.controller.MainActivity"/>
+        <activity android:label="@string/new_look" android:name="com.au.uow.looksandlikes.controller.NewLookActivity"/>
+        <!--created by Pedro Henrique Ramos Souza at 2014-10-31 13:14:30-->
+        <activity android:name=".controller.ViewLookActivity"/>
     </application>
-
 </manifest>

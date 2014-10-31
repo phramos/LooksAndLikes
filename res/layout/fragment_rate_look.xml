@@ -8,14 +8,14 @@
         android:id="@+id/imageToBeRated"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_camera" />
+        android:scaleType="centerCrop" />
 
-<!--     <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView -->
+<!--     <com.au.uow.looksandlikes.utils.ScaleImageView -->
 <!--         android:id="@+id/imageToBeRated" -->
 <!--         android:layout_width="fill_parent" -->
 <!--         android:layout_height="fill_parent" -->
-<!--         android:scaleType="centerCrop"/> -->
+<!--         android:scaleType="centerCrop" -->
+<!--         android:src="@drawable/look_sample" /> -->
 
     <TextView
         android:id="@+id/rating"
