@@ -42,7 +42,7 @@ public class ViewLookActivity extends Activity {
 		protected void onPreExecute() {
 			super.onPreExecute();
 			pDialog = new ProgressDialog(ViewLookActivity.this);
-			pDialog.setMessage("Loading Image ....");
+			pDialog.setMessage("Loading image ....");
 			pDialog.setCancelable(false);
 	        pDialog.setCanceledOnTouchOutside(false);
 			pDialog.show();
