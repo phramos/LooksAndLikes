@@ -138,7 +138,7 @@ public class RatingFragment extends Fragment implements
 		protected void onPreExecute() {
 			super.onPreExecute();
 			progressDialog= new ProgressDialog(getActivity());
-			progressDialog.setMessage("Loading image to be rated....");
+			progressDialog.setMessage("Loading next image to be rated....");
 			progressDialog.setCancelable(false);
 			progressDialog.setCanceledOnTouchOutside(false);
 			progressDialog.show();

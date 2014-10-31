@@ -11,15 +11,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.au.uow.looksandlikes.Look;
 import com.au.uow.looksandlikes.R;
@@ -62,8 +59,8 @@ public class ViewRatingsFragment extends Fragment {
 				Bundle bundle = new Bundle();
 				RatedImage ratedImage = ratedImages.get(position);
 				bundle.putString("imageURL", ratedImage.getUrl());
-				bundle.putLong("rating", ratedImage.getRating());
-				bundle.putInt("totalVotes", ratedImage.getTotalVotes());
+				bundle.putString("rating", ratedImage.getRating().toString());
+				bundle.putString("totalVotes", ratedImage.getTotalVotes().toString());
 				bundle.putString("title", ratedImage.getTitle());
 
 				intent.setClass(getActivity(), ViewLookActivity.class);

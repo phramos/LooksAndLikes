@@ -12,11 +12,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.au.uow.looksandlikes.R;
-import com.au.uow.looksandlikes.utils.ImageUtils;
 
 /**
  * @author Pedro Henrique Ramos Souza
@@ -24,6 +25,8 @@ import com.au.uow.looksandlikes.utils.ImageUtils;
  */
 public class ViewLookActivity extends Activity {
 	ImageView img;
+	TextView rating;
+	TextView totalVotes;
 	Bitmap bitmap;
 	ProgressDialog pDialog;
 
@@ -32,6 +35,8 @@ public class ViewLookActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_look);
 		img = (ImageView) findViewById(R.id.imageViewShowImage);
+		rating = (TextView) findViewById(R.id.textViewRating);
+		totalVotes = (TextView) findViewById(R.id.textViewTotalVotes);
 		Bundle bundle = getIntent().getExtras();
 		String url = bundle.getString("imageURL");
 		new LoadImage().execute(url);
@@ -61,6 +66,11 @@ public class ViewLookActivity extends Activity {
 		protected void onPostExecute(Bitmap image) {
 			if (image != null) {
 				img.setImageBitmap(image);
+				Bundle bundle = getIntent().getExtras();
+				rating.setText("Rating: "+bundle.getString("rating"));
+				totalVotes.setText("Total votes: "+bundle.getString("totalVotes"));
+				rating.setVisibility(View.VISIBLE);
+				totalVotes.setVisibility(View.VISIBLE);
 				pDialog.dismiss();
 			} else {
 				pDialog.dismiss();

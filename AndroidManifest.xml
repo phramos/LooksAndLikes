@@ -41,6 +41,11 @@
             android:label="Register New Account"
             android:noHistory="true">
         </activity>
+        <activity
+            android:name=".controller.ViewLookActivity"
+            android:label="View Image Activity"
+            android:noHistory="true">
+        </activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
