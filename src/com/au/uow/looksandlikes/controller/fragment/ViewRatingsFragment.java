@@ -37,8 +37,8 @@ public class ViewRatingsFragment extends Fragment {
 	private GridView gridView;
 	private GridViewRatingAdapter customGridAdapter;
 	private ArrayList<RatedImage> ratedImages;
-	
-	
+	private ProgressDialog pDialog;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -47,13 +47,14 @@ public class ViewRatingsFragment extends Fragment {
 		gridView = (GridView) v.findViewById(R.id.gridViewRating);
 		return v;
 	}
-	
+
 	@Override
 	public void onStart() {
 		super.onStart();
-		ratedImages = getImagesRated();
-		customGridAdapter = new GridViewRatingAdapter(getActivity(),
-				R.layout.rating_grid_row, ratedImages);
+		//ratedImages = getImagesRated();
+		new LoadImages().execute();
+//		customGridAdapter = new GridViewRatingAdapter(getActivity(),
+//				R.layout.rating_grid_row, ratedImages);
 
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -73,10 +74,10 @@ public class ViewRatingsFragment extends Fragment {
 				startActivity(intent);
 			}
 		});
-		gridView.setAdapter(customGridAdapter);
-		
+//		gridView.setAdapter(customGridAdapter);
+
 	}
-	
+
 	private ArrayList<RatedImage> getImagesRated() {
 		ArrayList<RatedImage> ratedImages = new ArrayList<RatedImage>();
 
@@ -108,5 +109,41 @@ public class ViewRatingsFragment extends Fragment {
 		}
 		return looks;
 	}
-	
+
+	private class LoadImages extends
+			AsyncTask<String, String, ArrayList<RatedImage>> {
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pDialog = new ProgressDialog(getActivity());
+			pDialog.setMessage("Loading looks....");
+			pDialog.setCancelable(false);
+			pDialog.setCanceledOnTouchOutside(false);
+			pDialog.show();
+		}
+
+		protected ArrayList<RatedImage> doInBackground(String... args) {
+			ArrayList<RatedImage> ratedImages = null;
+			try {
+				ratedImages = getImagesRated();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return ratedImages;
+		}
+
+		protected void onPostExecute(ArrayList<RatedImage> images) {
+			if (images != null) {
+				ratedImages = images;
+				customGridAdapter = new GridViewRatingAdapter(getActivity(),
+						R.layout.rating_grid_row, ratedImages);
+				gridView.setAdapter(customGridAdapter);
+				pDialog.dismiss();
+			} else {
+				pDialog.dismiss();
+				Toast.makeText(getActivity(), "Network Error",
+						Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
 }
