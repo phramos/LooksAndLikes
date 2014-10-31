@@ -141,7 +141,7 @@ public class ViewRatingsFragment extends Fragment {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 						getActivity());
 				alertDialogBuilder.setTitle("Empty Gallery");
-				alertDialogBuilder.setMessage("No imagens to be shown, add a image first");
+				alertDialogBuilder.setMessage("No imagens to be shown, add a image befor view your ratings");
 				alertDialogBuilder.setCancelable(false	);
 				alertDialogBuilder.setPositiveButton("Close", null);
 				// create alert dialog
