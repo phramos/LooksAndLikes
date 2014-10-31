@@ -147,11 +147,14 @@ public class LoginActivity extends Activity {
 
     private void createNewUserProfile() {
         ParseUser currentUser = ParseUser.getCurrentUser();
+
+        currentUserProfile = new UserProfile();
+        currentUserProfile.setUser(currentUser);
+
         if (currentUser.get("profile") != null) {
             JSONObject userProfile = currentUser.getJSONObject("profile");
+
             try {
-                currentUserProfile = new UserProfile();
-                currentUserProfile.setUser(currentUser);
 
                 if (userProfile.getString("facebookId") != null) {
                     currentUserProfile.setFacebookId(userProfile.getString("facebookId"));
@@ -173,13 +176,12 @@ public class LoginActivity extends Activity {
                     currentUserProfile.setEmail(userProfile.getString("email"));
                 }
 
-                currentUserProfile.saveInBackground();
-
             } catch (JSONException e) {
                 Log.d(LooksAndLikes.TAG,
                         "Error parsing saved user data.");
             }
         }
+        currentUserProfile.saveInBackground();
     }
 
     private void makeMeRequest() {
@@ -216,12 +218,13 @@ public class LoginActivity extends Activity {
                                 // Save the user profile info in a user property
                                 ParseUser currentUser = ParseUser.getCurrentUser();
                                 currentUser.put("profile", userProfile);
-                                currentUser.saveInBackground();
+                                currentUser.save();
 
-                                createNewUserProfile();
                             } catch (JSONException e) {
                                 Log.d(LooksAndLikes.TAG,
                                         "Error parsing returned user data.");
+                            } catch (ParseException e) {
+                                e.printStackTrace();
                             }
 
                         } else if (response.getError() != null) {
@@ -237,6 +240,7 @@ public class LoginActivity extends Activity {
                                                 .getErrorMessage());
                             }
                         }
+                        createNewUserProfile();
                     }
                 });
         request.executeAsync();
