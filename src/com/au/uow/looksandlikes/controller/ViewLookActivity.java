@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.au.uow.looksandlikes.R;
@@ -25,6 +26,8 @@ import com.au.uow.looksandlikes.utils.ImageUtils;
 public class ViewLookActivity extends Activity {
 	ImageView img;
 	Bitmap bitmap;
+	TextView ratingView;
+	TextView totalVotesView;
 	ProgressDialog pDialog;
 
 	@Override
@@ -32,8 +35,15 @@ public class ViewLookActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_look);
 		img = (ImageView) findViewById(R.id.imageViewShowImage);
+		ratingView = (TextView) findViewById(R.id.textViewRating);
+		totalVotesView = (TextView) findViewById(R.id.textViewTotalVotes);
 		Bundle bundle = getIntent().getExtras();
 		String url = bundle.getString("imageURL");
+		Integer totalVotes = bundle.getInt("totalVotes");
+		Long rating = bundle.getLong("rating");
+
+		ratingView.setText("Rating: " + rating.toString());
+		totalVotesView.setText("Total Votes: " + totalVotes.toString());
 		new LoadImage().execute(url);
 	}
 
@@ -44,7 +54,7 @@ public class ViewLookActivity extends Activity {
 			pDialog = new ProgressDialog(ViewLookActivity.this);
 			pDialog.setMessage("Loading image ....");
 			pDialog.setCancelable(false);
-	        pDialog.setCanceledOnTouchOutside(false);
+			pDialog.setCanceledOnTouchOutside(false);
 			pDialog.show();
 		}
 
@@ -61,6 +71,8 @@ public class ViewLookActivity extends Activity {
 		protected void onPostExecute(Bitmap image) {
 			if (image != null) {
 				img.setImageBitmap(image);
+				ratingView.setVisibility(TextView.VISIBLE);
+				totalVotesView.setVisibility(TextView.VISIBLE);
 				pDialog.dismiss();
 			} else {
 				pDialog.dismiss();
